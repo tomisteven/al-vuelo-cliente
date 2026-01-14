@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { API_URL } from '../constants/constants';
 
 const CurrencyContext = createContext();
 
@@ -32,7 +33,7 @@ export const CurrencyProvider = ({ children }) => {
 
     const fetchSettings = async () => {
         try {
-            const response = await fetch('http://localhost:5000/api/settings');
+            const response = await fetch(`${API_URL}/settings`);
             const result = await response.json();
             if (result.success && result.data) {
                 setSuggestedPricePercentage(result.data.suggestedPricePercentage);
