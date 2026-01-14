@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiX, FiMail, FiLock, FiUser, FiArrowRight } from 'react-icons/fi';
 import { useAuth } from '../../context/AuthContext';
@@ -44,9 +45,20 @@ const AuthModal = ({ isOpen, onClose }) => {
         }
     };
 
+    useEffect(() => {
+        if (isOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'unset';
+        }
+        return () => {
+            document.body.style.overflow = 'unset';
+        };
+    }, [isOpen]);
+
     if (!isOpen) return null;
 
-    return (
+    return createPortal(
         <AnimatePresence>
             <div className={styles.overlay} onClick={onClose}>
                 <motion.div
@@ -133,7 +145,7 @@ const AuthModal = ({ isOpen, onClose }) => {
                 </motion.div>
             </div>
         </AnimatePresence>
-    );
+        , document.body);
 };
 
 export default AuthModal;

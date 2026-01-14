@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiShoppingBag, FiMenu, FiX, FiSun, FiMoon, FiUser, FiLogOut, FiAward } from 'react-icons/fi';
+import { FiShoppingBag, FiMenu, FiX, FiSun, FiMoon, FiUser, FiLogOut, FiAward, FiArrowRight } from 'react-icons/fi';
 import { useCart } from '../../context/CartContext';
 import { useTheme } from '../../context/ThemeContext';
 import { useAuth } from '../../context/AuthContext';
@@ -40,6 +40,7 @@ const Header = ({ toggleCart }) => {
         { name: 'Miniaturas', path: '/miniaturas' },
         { name: 'Productos', path: '/productos' },
         { name: 'Combos', path: '/combos' },
+        { name: 'Nosotros', path: '/nosotros' },
         { name: 'Preguntas', path: '/faq' },
         ...(isAdmin ? [{ name: 'Admin', path: '/admin' }] : []),
     ];
@@ -139,7 +140,71 @@ const Header = ({ toggleCart }) => {
                 onClose={() => setIsAuthModalOpen(false)}
             />
 
-            {/* Mobile Menu logic would go here with AnimatePresence */}
+            {/* Mobile Menu */}
+            <AnimatePresence>
+                {isMenuOpen && (
+                    <>
+                        <motion.div
+                            className={styles.mobileOverlay}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            onClick={() => setIsMenuOpen(false)}
+                        />
+                        <motion.div
+                            className={styles.mobileMenu}
+                            initial={{ x: '100%' }}
+                            animate={{ x: 0 }}
+                            exit={{ x: '100%' }}
+                            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+                        >
+                            <div className={styles.mobileMenuHeader}>
+                                <h3>Menú</h3>
+                                <button onClick={() => setIsMenuOpen(false)}>
+                                    <FiX size={24} />
+                                </button>
+                            </div>
+
+                            <div className={styles.mobileLinks}>
+                                {navLinks.map((link) => (
+                                    <Link
+                                        key={link.path}
+                                        to={link.path}
+                                        className={styles.mobileNavLink}
+                                        onClick={() => setIsMenuOpen(false)}
+                                        style={location.pathname === link.path ? { color: 'var(--accent-color)' } : {}}
+                                    >
+                                        {link.name}
+                                        <FiArrowRight size={16} />
+                                    </Link>
+                                ))}
+                            </div>
+
+                            <div className={styles.mobileActions}>
+                                {!isAuthenticated && (
+                                    <button
+                                        className={styles.mobileLoginBtn}
+                                        onClick={() => {
+                                            setIsMenuOpen(false);
+                                            setIsAuthModalOpen(true);
+                                        }}
+                                    >
+                                        <FiUser /> Iniciar Sesión / Registrarse
+                                    </button>
+                                )}
+
+                                <button
+                                    className={styles.mobileThemeToggle}
+                                    onClick={toggleTheme}
+                                >
+                                    {theme === 'dark' ? <FiSun /> : <FiMoon />}
+                                    <span>{theme === 'dark' ? 'Modo Claro' : 'Modo Oscuro'}</span>
+                                </button>
+                            </div>
+                        </motion.div>
+                    </>
+                )}
+            </AnimatePresence>
         </header>
     );
 };

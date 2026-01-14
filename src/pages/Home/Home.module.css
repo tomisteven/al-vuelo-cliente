@@ -125,6 +125,20 @@
     }
 }
 
+@media (max-width: 480px) {
+    .essenceContent {
+        padding: 3rem 1.5rem;
+    }
+
+    .essenceTitle {
+        font-size: 2rem;
+    }
+
+    .sectionTitle {
+        font-size: 1.8rem;
+    }
+}
+
 /* Exclusive Products Section */
 .exclusiveSection {
     margin: 4rem 0;

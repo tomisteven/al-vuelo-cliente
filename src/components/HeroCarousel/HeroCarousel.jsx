@@ -3,32 +3,24 @@ import { motion, AnimatePresence } from 'framer-motion';
 import styles from './HeroCarousel.module.css';
 
 import hero1 from '../../assets/hero_luxury_perfume_1_1767885897767.png';
-import hero2 from '../../assets/hero_luxury_perfume_2_1767885915087.png';
-import hero3 from '../../assets/hero_luxury_perfume_3_1767885932327.png';
+
 import principal from '../../assets/localexterior.jpg';
 
 const images = [
     {
+        url: principal,
+        title: 'Visitanos en nuestro local',
+        subtitle: 'Estamos en Tribulato 999, San Miguel, Bsas',
+        buttonText: 'UNITE A NUESTRA COMUNIDAD MAYORISTA DE WHATSAPP',
+        link: 'https://whatsapp.com/channel/0029VbBKXH8HFxP7qVpbCx1I',
+        isExternal: true
+    },
+    {
         url: hero1,
         title: 'Perfumes Árabes Importados',
-        subtitle: 'Venta Mayorista y Minorista en Argentina'
-    },
-
-    {
-        url: principal,
-        title: 'Lattes & Oud: Calidad Premium',
-        subtitle: 'Importadora directa de los Emiratos Árabes'
-    },
-
-    {
-        url: hero2,
-        title: 'Fragancias de Nicho Exclusivas',
-        subtitle: 'El lujo de oriente ahora en San Miguel'
-    },
-    {
-        url: hero3,
-        title: 'Perfumería Mayorista San Miguel',
-        subtitle: 'Distribuidores oficiales de Lattafa, Afnan y más'
+        subtitle: 'Venta Mayorista y Minorista en Argentina',
+        buttonText: '¿Tu primera vez? Gánate un cupón',
+        action: 'popup'
     }
 ];
 
@@ -38,9 +30,19 @@ const HeroCarousel = () => {
     useEffect(() => {
         const timer = setInterval(() => {
             setIndex((prev) => (prev + 1) % images.length);
-        }, 7000);
+        }, 10000);
         return () => clearInterval(timer);
     }, []);
+
+    const handleButtonClick = (slide) => {
+        if (slide.action === 'popup') {
+            window.dispatchEvent(new CustomEvent('openDiscountPopup'));
+        } else if (slide.isExternal) {
+            window.open(slide.link, '_blank', 'noopener,noreferrer');
+        } else if (slide.link) {
+            window.location.href = slide.link;
+        }
+    };
 
     return (
         <div className={styles.carousel}>
@@ -88,9 +90,9 @@ const HeroCarousel = () => {
                             animate={{ y: 0, opacity: 1 }}
                             transition={{ delay: 1.1 }}
                             className={styles.ctaBtn}
-                            onClick={() => window.dispatchEvent(new CustomEvent('openDiscountPopup'))}
+                            onClick={() => handleButtonClick(images[index])}
                         >
-                            ¿Tu primera vez? Gánate un cupón de 10% off
+                            {images[index].buttonText}
                         </motion.button>
                     </div>
                 </motion.div>

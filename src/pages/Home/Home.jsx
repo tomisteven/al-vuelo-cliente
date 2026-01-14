@@ -8,7 +8,7 @@ import ProductCard from '../../components/ProductCard/ProductCard';
 import HeroCarousel from '../../components/HeroCarousel/HeroCarousel';
 import styles from '../Products/Products.module.css';
 import homeStyles from './Home.module.css';
-import essenceBg from '../../assets/brand_essence_bg_1767885947158.png';
+import essenceBg from '../../assets/essence_luxury.png';
 import { FiSearch, FiGrid, FiList, FiChevronDown, FiAward, FiTruck, FiShield, FiPackage, FiArrowRight, FiLock } from 'react-icons/fi';
 
 const Home = () => {
@@ -198,7 +198,7 @@ const Home = () => {
                 <div className={styles.catalogLayout}>
                     <main className={styles.mainContent}>
                         <div className={homeStyles.catalogSection}>
-                            <h1 className={homeStyles.sectionTitle}>Perfumes Árabes Originales - Colección Exclusiva</h1>
+                            <h1 className={homeStyles.sectionTitle}>Perfumes Árabes Originales</h1>
                             {loading ? (
                                 <div className={styles.loader}>Cargando catálogo...</div>
                             ) : (
@@ -301,11 +301,10 @@ const Home = () => {
                 {/* Nuestra Esencia Section */}
                 <section className={homeStyles.essenceSection}>
                     <div className={homeStyles.essenceContent}>
-                        <span className={homeStyles.essenceTag}>NUESTRA ESENCIA</span>
-                        <h2 className={homeStyles.essenceTitle}>Al Vuelo Importados: Importadora de Perfumes en Argentina</h2>
+                        <span className={homeStyles.essenceTag}>¿QUIENES SOMOS?</span>
+                        <h2 className={homeStyles.essenceTitle}>Al Vuelo Importados: Expertos y asesores de perfumeria de Arabe, Nacional y de nicho.</h2>
                         <p className={homeStyles.essenceText}>
-                            En Al Vuelo Importados, seleccionamos meticulosamente cada fragancia para traerte solo lo mejor de los Emiratos.
-                            Nuestra pasión por el Oud y los aromas orientales nos define como referentes en perfumería de importación.
+                            En Al vuelo importados, nos especializamos en realizar asesoramiento profesional a cada uno de nuestros clientes. nuestro objetivo es transmitir nuestro conocimiento y amor por los perfumes para tu emprendimiento/perfumeria o uso personal.
                         </p>
 
                         <div className={homeStyles.features}>

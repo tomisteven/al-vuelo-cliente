@@ -23,6 +23,7 @@ import AdminLayout from './pages/Admin/AdminLayout';
 import Nicho from './pages/Nicho/Nicho';
 import Miniaturas from './pages/Miniaturas/Miniaturas';
 import FAQ from './pages/FAQ/FAQ';
+import About from './pages/About/About';
 import ProductForm from './pages/Admin/ProductForm';
 import ComboForm from './pages/Admin/ComboForm';
 import ProtectedRoute from './components/Auth/ProtectedRoute';
@@ -61,6 +62,7 @@ function App() {
                                             <Route path="/nicho" element={<Nicho />} />
                                             <Route path="/miniaturas" element={<Miniaturas />} />
                                             <Route path="/faq" element={<FAQ />} />
+                                            <Route path="/nosotros" element={<About />} />
 
                                             {/* Admin Routes - Nested */}
                                             <Route path="/admin" element={

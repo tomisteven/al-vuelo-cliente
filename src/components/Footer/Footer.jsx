@@ -1,5 +1,6 @@
 import React from 'react';
 import { FiInstagram, FiFacebook, FiYoutube, FiMessageCircle } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
 import styles from './Footer.module.css';
 
 const Footer = () => {
@@ -52,7 +53,7 @@ const Footer = () => {
                     <div className={styles.brand}>
                         <h2 className={styles.logo}>Al Vuelo Importados</h2>
                         <p className={styles.desc}>
-                            Importadora directa de perfumes árabes y de nicho. Especialistas en ventas mayoristas y envíos a toda la Argentina.
+                            Perfumeria especializada en fragancias arabes, nacionales y nicho. Nos dedicamos a la venta minorista y mayorista con envios a todo el pais.
                         </p>
                         <div className={styles.social}>
                             <a href="https://www.instagram.com/alvueloimportados" target="_blank" rel="noopener noreferrer" title="Seguinos en Instagram"><FiInstagram /></a>
@@ -64,10 +65,11 @@ const Footer = () => {
                     <div className={styles.links}>
                         <h3>Catálogo</h3>
                         <ul>
-                            <li><a href="/">Inicio</a></li>
-                            <li><a href="/productos">Perfumes</a></li>
-                            <li><a href="/combos">Ofertas y Combos</a></li>
-                            <li><a href="/faq">Preguntas Frecuentes</a></li>
+                            <li><Link to="/">Inicio</Link></li>
+                            <li><Link to="/productos">Perfumes</Link></li>
+                            <li><Link to="/combos">Ofertas y Combos</Link></li>
+                            <li><Link to="/nosotros">Nosotros</Link></li>
+                            <li><Link to="/faq">Preguntas Frecuentes</Link></li>
                         </ul>
                     </div>
 
@@ -91,9 +93,9 @@ const Footer = () => {
                 </div>
 
                 <div className={styles.bottom}>
-                    <p>&copy; {new Date().getFullYear()} Al Vuelo Importados. Importadora de Perfumes.</p>
+                    <p>&copy; {new Date().getFullYear()} Al Vuelo Importados. Perfumeria Minorista & Mayorista</p>
                     <div className={styles.dev}>
-                        Expert SEO by <span className={styles.gold}>Antigravity Luxury</span>
+                        Expert Design by <span className={styles.gold}>Factos Dev</span>
                     </div>
                 </div>
             </div>
