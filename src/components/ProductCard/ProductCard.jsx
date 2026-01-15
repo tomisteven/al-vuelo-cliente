@@ -3,12 +3,20 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { FiShoppingCart, FiChevronDown, FiPercent, FiDroplet } from 'react-icons/fi';
 import { useCart } from '../../context/CartContext';
 import { useCurrency } from '../../context/CurrencyContext';
+import { useToast } from '../Toast/Toast';
 import { formatCurrency } from '../../utils/currencyFormatter';
 import styles from './ProductCard.module.css';
 
 const ProductCard = ({ product, viewMode = 'grid', isExpanded, onToggleAccordion }) => {
     const { addToCart } = useCart();
     const { convertToARS, calculateSuggestedPrice } = useCurrency();
+    const { addToast } = useToast();
+
+    const handleAddToCart = () => {
+        addToCart(product, 'product', selectedSize);
+        const sizeText = selectedSize ? ` (${selectedSize}ml)` : '';
+        addToast(`${product.nombre}${sizeText} agregado al carrito`, 'cart');
+    };
 
     // Use internal state as fallback when external control is not provided
     const [internalExpanded, setInternalExpanded] = useState(false);
@@ -70,17 +78,13 @@ const ProductCard = ({ product, viewMode = 'grid', isExpanded, onToggleAccordion
                         <FiPercent /> Hasta -{Math.round(bestDiscount)}%
                     </div>
                 )}
-                {hasDecants && (
-                    <div className={styles.decantBadge}>
-                        <FiDroplet /> Decants
-                    </div>
-                )}
+
 
                 {/* Cart Button Overlay */}
                 <div className={styles.imageOverlay}>
                     <button
                         className={styles.cartBtn}
-                        onClick={() => addToCart(product, 'product', selectedSize)}
+                        onClick={handleAddToCart}
                         disabled={currentStock <= 0}
                         title="Agregar al carrito"
                     >
@@ -207,7 +211,7 @@ const ProductCard = ({ product, viewMode = 'grid', isExpanded, onToggleAccordion
                 {isList && (
                     <button
                         className={styles.listCartBtn}
-                        onClick={() => addToCart(product, 'product', selectedSize)}
+                        onClick={handleAddToCart}
                         disabled={currentStock <= 0}
                     >
                         <FiShoppingCart />

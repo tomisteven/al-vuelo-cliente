@@ -5,12 +5,14 @@ import { ThemeProvider } from './context/ThemeContext';
 import { AuthProvider } from './context/AuthContext';
 import { CurrencyProvider } from './context/CurrencyContext';
 import { NotificationProvider } from './context/NotificationContext';
+import { ToastProvider } from './components/Toast/Toast';
 import CurrencyBanner from './components/CurrencyBanner/CurrencyBanner';
 
 // Components
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import CartDrawer from './components/CartDrawer/CartDrawer';
+import WhatsAppFloat from './components/WhatsAppFloat/WhatsAppFloat';
 /* import DiscountPopup from './components/DiscountPopup/DiscountPopup'; */
 
 // Pages
@@ -45,77 +47,80 @@ function App() {
             <CurrencyProvider>
                 <ThemeProvider>
                     <CartProvider>
-                        <NotificationProvider>
-                            <Router>
-                                <div className="app">
-                                    <CurrencyBanner />
-                                    <Header toggleCart={() => setIsCartOpen(true)} />
-                                    <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
+                        <ToastProvider>
+                            <NotificationProvider>
+                                <Router>
+                                    <div className="app">
+                                        <CurrencyBanner />
+                                        <Header toggleCart={() => setIsCartOpen(true)} />
+                                        <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
 
-                                    <main style={{ minHeight: '80vh' }}>
-                                        <Routes>
-                                            <Route path="/" element={<Home />} />
-                                            <Route path="/productos" element={<Products />} />
-                                            <Route path="/combos" element={<Combos />} />
-                                            <Route path="/checkout" element={<Checkout />} />
-                                            <Route path="/perfil" element={<Profile />} />
-                                            <Route path="/nicho" element={<Nicho />} />
-                                            <Route path="/miniaturas" element={<Miniaturas />} />
-                                            <Route path="/faq" element={<FAQ />} />
-                                            <Route path="/nosotros" element={<About />} />
+                                        <main style={{ minHeight: '80vh' }}>
+                                            <Routes>
+                                                <Route path="/" element={<Home />} />
+                                                <Route path="/productos" element={<Products />} />
+                                                <Route path="/combos" element={<Combos />} />
+                                                <Route path="/checkout" element={<Checkout />} />
+                                                <Route path="/perfil" element={<Profile />} />
+                                                <Route path="/nicho" element={<Nicho />} />
+                                                <Route path="/miniaturas" element={<Miniaturas />} />
+                                                <Route path="/faq" element={<FAQ />} />
+                                                <Route path="/nosotros" element={<About />} />
 
-                                            {/* Admin Routes - Nested */}
-                                            <Route path="/admin" element={
-                                                <ProtectedRoute adminOnly>
-                                                    <AdminLayout />
-                                                </ProtectedRoute>
-                                            }>
-                                                <Route index element={<Navigate to="/admin/productos" replace />} />
-                                                <Route path="productos" element={<ProductsTab />} />
-                                                <Route path="combos" element={<CombosTab />} />
-                                                <Route path="usuarios" element={<UsersTab />} />
-                                                <Route path="pedidos" element={<OrdersTab />} />
-                                                <Route path="emails" element={<EmailsTab />} />
-                                                <Route path="cupones" element={<DiscountsTab />} />
-                                                <Route path="configuracion" element={<SettingsTab />} />
-                                            </Route>
+                                                {/* Admin Routes - Nested */}
+                                                <Route path="/admin" element={
+                                                    <ProtectedRoute adminOnly>
+                                                        <AdminLayout />
+                                                    </ProtectedRoute>
+                                                }>
+                                                    <Route index element={<Navigate to="/admin/productos" replace />} />
+                                                    <Route path="productos" element={<ProductsTab />} />
+                                                    <Route path="combos" element={<CombosTab />} />
+                                                    <Route path="usuarios" element={<UsersTab />} />
+                                                    <Route path="pedidos" element={<OrdersTab />} />
+                                                    <Route path="emails" element={<EmailsTab />} />
+                                                    <Route path="cupones" element={<DiscountsTab />} />
+                                                    <Route path="configuracion" element={<SettingsTab />} />
+                                                </Route>
 
-                                            {/* Admin Forms - Standalone */}
-                                            <Route path="/admin/crear-producto" element={
-                                                <ProtectedRoute adminOnly>
-                                                    <ProductForm />
-                                                </ProtectedRoute>
-                                            } />
-                                            <Route path="/admin/editar-producto/:id" element={
-                                                <ProtectedRoute adminOnly>
-                                                    <ProductForm />
-                                                </ProtectedRoute>
-                                            } />
-                                            <Route path="/admin/crear-combo" element={
-                                                <ProtectedRoute adminOnly>
-                                                    <ComboForm />
-                                                </ProtectedRoute>
-                                            } />
-                                            <Route path="/admin/editar-combo/:id" element={
-                                                <ProtectedRoute adminOnly>
-                                                    <ComboForm />
-                                                </ProtectedRoute>
-                                            } />
+                                                {/* Admin Forms - Standalone */}
+                                                <Route path="/admin/crear-producto" element={
+                                                    <ProtectedRoute adminOnly>
+                                                        <ProductForm />
+                                                    </ProtectedRoute>
+                                                } />
+                                                <Route path="/admin/editar-producto/:id" element={
+                                                    <ProtectedRoute adminOnly>
+                                                        <ProductForm />
+                                                    </ProtectedRoute>
+                                                } />
+                                                <Route path="/admin/crear-combo" element={
+                                                    <ProtectedRoute adminOnly>
+                                                        <ComboForm />
+                                                    </ProtectedRoute>
+                                                } />
+                                                <Route path="/admin/editar-combo/:id" element={
+                                                    <ProtectedRoute adminOnly>
+                                                        <ComboForm />
+                                                    </ProtectedRoute>
+                                                } />
 
-                                            <Route path="*" element={
-                                                <div style={{ padding: '200px 0', textAlign: 'center' }}>
-                                                    <h1>404</h1>
-                                                    <p>Página no encontrada</p>
-                                                </div>
-                                            } />
-                                        </Routes>
-                                    </main>
+                                                <Route path="*" element={
+                                                    <div style={{ padding: '200px 0', textAlign: 'center' }}>
+                                                        <h1>404</h1>
+                                                        <p>Página no encontrada</p>
+                                                    </div>
+                                                } />
+                                            </Routes>
+                                        </main>
 
-                                    <Footer />
-                                    {/* <DiscountPopup /> */}
-                                </div>
-                            </Router>
-                        </NotificationProvider>
+                                        <Footer />
+                                        <WhatsAppFloat />
+                                        {/* <DiscountPopup /> */}
+                                    </div>
+                                </Router>
+                            </NotificationProvider>
+                        </ToastProvider>
                     </CartProvider>
                 </ThemeProvider>
             </CurrencyProvider>

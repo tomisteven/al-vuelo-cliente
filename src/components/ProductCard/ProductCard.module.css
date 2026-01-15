@@ -604,7 +604,7 @@
 
 .decantOptions {
     display: flex;
-    flex-wrap: wrap;
+
     gap: 0.4rem;
 }
 
@@ -618,11 +618,10 @@
     cursor: pointer;
     transition: all 0.2s ease;
     border-radius: 4px;
-    display: flex;
-    flex-direction: column;
+
     align-items: center;
     gap: 0.15rem;
-    min-width: 50px;
+    min-width: 100%;
 }
 
 .sizeBtnLabel {

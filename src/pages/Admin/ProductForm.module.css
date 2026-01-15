@@ -312,10 +312,6 @@
     margin: 0;
 }
 
-/* Firefox */
-.stockStepper input[type=number] {
-    -moz-appearance: textfield;
-}
 
 .stepperBtn {
     background: none;

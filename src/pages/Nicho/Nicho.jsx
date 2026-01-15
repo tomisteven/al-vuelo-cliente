@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { getProducts, getCategories } from '../../api/product.api';
 import ProductCard from '../../components/ProductCard/ProductCard';
 import styles from './Nicho.module.css';
-import nichoBanner from '../../assets/nicho_banner.png';
 import { FiSearch, FiGrid, FiList, FiChevronDown } from 'react-icons/fi';
 
 const Nicho = () => {
@@ -78,13 +77,11 @@ const Nicho = () => {
 
     return (
         <div className={styles.page}>
-            <div className={styles.hero} style={{ backgroundImage: `url(${nichoBanner})` }}>
-                <div className={styles.heroOverlay}>
-                    <div className="container">
-                        <h1 className={styles.heroTitle}>Perfumería de Nicho</h1>
-                        <p className={styles.heroSubtitle}>Exclusividad, arte y duración en cada gota.</p>
-                    </div>
-                </div>
+            <div className="container">
+                <header className={styles.header}>
+                    <h1 className={styles.title}>Perfumería de Nicho</h1>
+                    <p className={styles.subtitle}>Exclusividad, arte y duración en cada gota.</p>
+                </header>
             </div>
 
             <section className={styles.controlsSection}>

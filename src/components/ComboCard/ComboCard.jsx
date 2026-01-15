@@ -3,13 +3,20 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { FiShoppingBag, FiPackage, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import { useCart } from '../../context/CartContext';
 import { useCurrency } from '../../context/CurrencyContext';
+import { useToast } from '../Toast/Toast';
 import { formatCurrency } from '../../utils/currencyFormatter';
 import styles from './ComboCard.module.css';
 
 const ComboCard = ({ combo }) => {
     const { addToCart } = useCart();
     const { convertToARS } = useCurrency();
+    const { addToast } = useToast();
     const [currentIndex, setCurrentIndex] = useState(0);
+
+    const handleAddToCart = () => {
+        addToCart(combo, 'combo');
+        addToast(`Combo "${combo.name}" agregado al carrito`, 'cart');
+    };
     const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
     // Get product images from populated products
@@ -186,7 +193,7 @@ const ComboCard = ({ combo }) => {
 
                 <button
                     className={styles.addBtn}
-                    onClick={() => addToCart(combo, 'combo')}
+                    onClick={handleAddToCart}
                 >
                     <FiShoppingBag /> Agregar Combo
                 </button>
