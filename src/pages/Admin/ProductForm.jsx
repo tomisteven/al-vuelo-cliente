@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
-import { createProduct, updateProduct, getProductBySlug, getCategories } from '../../api/product.api';
-import { FiPlus, FiMinus, FiTrash2, FiArrowLeft, FiRefreshCw } from 'react-icons/fi';
+import { createProduct, updateProduct, getProductBySlug, getCategories, createCategory } from '../../api/product.api';
+import { FiPlus, FiMinus, FiTrash2, FiArrowLeft, FiRefreshCw, FiCheck, FiX } from 'react-icons/fi';
 import { useCurrency } from '../../context/CurrencyContext';
 import { formatCurrency } from '../../utils/currencyFormatter';
 import { useNotification } from '../../context/NotificationContext';
@@ -37,6 +37,8 @@ const ProductForm = () => {
     });
 
     const [categories, setCategories] = useState([]);
+    const [isAddingNewCategory, setIsAddingNewCategory] = useState(false);
+    const [newCategoryName, setNewCategoryName] = useState('');
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -268,11 +270,77 @@ const ProductForm = () => {
                             </div>
                             <div className={styles.formGroup}>
                                 <label>Categoría</label>
-                                <select name="categoria" value={formData.categoria} onChange={handleChange}>
-                                    {categories.map(cat => (
-                                        <option key={cat} value={cat}>{cat}</option>
-                                    ))}
-                                </select>
+                                {isAddingNewCategory ? (
+                                    <div className={styles.newCategoryWrapper}>
+                                        <input
+                                            type="text"
+                                            value={newCategoryName}
+                                            onChange={(e) => setNewCategoryName(e.target.value)}
+                                            placeholder="Nombre de la nueva categoría"
+                                            autoFocus
+                                        />
+                                        <div className={styles.newCategoryActions}>
+                                            <button
+                                                type="button"
+                                                onClick={async () => {
+                                                    if (!newCategoryName.trim()) {
+                                                        showNotification('Ingresa un nombre para la categoría', 'error');
+                                                        return;
+                                                    }
+                                                    try {
+                                                        const result = await createCategory(newCategoryName.trim());
+                                                        setCategories(prev => [...prev, result.categoria]);
+                                                        setFormData(prev => ({ ...prev, categoria: result.categoria }));
+                                                        setNewCategoryName('');
+                                                        setIsAddingNewCategory(false);
+                                                        showNotification('Categoría agregada correctamente');
+                                                    } catch (error) {
+                                                        if (error.response?.status === 409) {
+                                                            // La categoría ya existe, usarla
+                                                            setFormData(prev => ({ ...prev, categoria: error.response.data.categoria }));
+                                                            setNewCategoryName('');
+                                                            setIsAddingNewCategory(false);
+                                                            showNotification('Categoría existente seleccionada');
+                                                        } else {
+                                                            showNotification(error.response?.data?.message || 'Error al crear categoría', 'error');
+                                                        }
+                                                    }
+                                                }}
+                                                className={styles.confirmCategoryBtn}
+                                                title="Confirmar nueva categoría"
+                                            >
+                                                <FiCheck />
+                                            </button>
+                                            <button
+                                                type="button"
+                                                onClick={() => {
+                                                    setNewCategoryName('');
+                                                    setIsAddingNewCategory(false);
+                                                }}
+                                                className={styles.cancelCategoryBtn}
+                                                title="Cancelar"
+                                            >
+                                                <FiX />
+                                            </button>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <div className={styles.categorySelectWrapper}>
+                                        <select name="categoria" value={formData.categoria} onChange={handleChange}>
+                                            {categories.map(cat => (
+                                                <option key={cat} value={cat}>{cat}</option>
+                                            ))}
+                                        </select>
+                                        <button
+                                            type="button"
+                                            onClick={() => setIsAddingNewCategory(true)}
+                                            className={styles.addCategoryBtn}
+                                            title="Agregar nueva categoría"
+                                        >
+                                            <FiPlus /> Nueva
+                                        </button>
+                                    </div>
+                                )}
                             </div>
                             <div className={styles.formGroup}>
                                 <label>Stock Inicial</label>

@@ -10,6 +10,11 @@ export const getCategories = async () => {
     return response.data;
 };
 
+export const createCategory = async (nombre) => {
+    const response = await api.post('/products/categories', { nombre });
+    return response.data;
+};
+
 export const getProductBySlug = async (slug) => {
     const response = await api.get(`/products/${slug}`);
     return response.data;
