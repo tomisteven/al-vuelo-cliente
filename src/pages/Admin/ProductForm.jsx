@@ -27,7 +27,13 @@ const ProductForm = () => {
         imagenes: [''],
         bulkPrices: [],
         isExclusive: false,
-        precioExclusivo: ''
+        precioExclusivo: '',
+        sellType: 'perfume',
+        decantOptions: {
+            available: false,
+            description: '',
+            sizes: []
+        }
     });
 
     const [categories, setCategories] = useState([]);
@@ -59,7 +65,9 @@ const ProductForm = () => {
                         precioCard: data.precioCard?.toString() || '',
                         imagenes: data.imagenes.length > 0 ? data.imagenes : [''],
                         isExclusive: data.isExclusive || false,
-                        precioExclusivo: data.precioExclusivo?.toString() || ''
+                        precioExclusivo: data.precioExclusivo?.toString() || '',
+                        sellType: data.sellType || 'perfume',
+                        decantOptions: data.decantOptions || { available: false, description: '', sizes: [] }
                     });
                 } catch (error) {
                     console.error('Error fetching product:', error);
@@ -140,6 +148,40 @@ const ProductForm = () => {
         setFormData(prev => ({ ...prev, sku: newSku }));
     };
 
+    const addDecantSize = () => {
+        setFormData(prev => ({
+            ...prev,
+            decantOptions: {
+                ...prev.decantOptions,
+                available: true,
+                sizes: [...prev.decantOptions.sizes, { size: '', price: '', stock: '' }]
+            }
+        }));
+    };
+
+    const removeDecantSize = (index) => {
+        const newSizes = formData.decantOptions.sizes.filter((_, i) => i !== index);
+        setFormData(prev => ({
+            ...prev,
+            decantOptions: {
+                ...prev.decantOptions,
+                sizes: newSizes
+            }
+        }));
+    };
+
+    const handleDecantSizeChange = (index, field, value) => {
+        const newSizes = [...formData.decantOptions.sizes];
+        newSizes[index][field] = value;
+        setFormData(prev => ({
+            ...prev,
+            decantOptions: {
+                ...prev.decantOptions,
+                sizes: newSizes
+            }
+        }));
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -159,7 +201,18 @@ const ProductForm = () => {
                 imagenes: formData.imagenes.filter(img => img.trim() !== ''),
                 bulkPrices: cleanedBulkPrices,
                 isExclusive: formData.isExclusive,
-                precioExclusivo: formData.precioExclusivo ? Number(formData.precioExclusivo) : null
+                precioExclusivo: formData.precioExclusivo ? Number(formData.precioExclusivo) : null,
+                decantOptions: {
+                    ...formData.decantOptions,
+                    available: formData.sellType !== 'perfume',
+                    sizes: formData.decantOptions.sizes
+                        .filter(s => s.size && s.price)
+                        .map(s => ({
+                            size: Number(s.size),
+                            price: Number(s.price),
+                            stock: Number(s.stock) || 0
+                        }))
+                }
             };
 
             if (isEditing) {
@@ -248,8 +301,98 @@ const ProductForm = () => {
                                     </button>
                                 </div>
                             </div>
+                            <div className={styles.formGroup}>
+                                <label>Tipo de Venta</label>
+                                <select name="sellType" value={formData.sellType} onChange={handleChange}>
+                                    <option value="perfume">Solo Perfume Completo</option>
+                                    <option value="decant">Solo Decant</option>
+                                    <option value="both">Ambos (Perfume + Decant)</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
+
+                    {(formData.sellType === 'decant' || formData.sellType === 'both') && (
+                        <div className={styles.section}>
+                            <div className={styles.sectionHeader}>
+                                <h2 className={styles.sectionTitle}>💧 Opciones de Decant</h2>
+                                <button type="button" onClick={addDecantSize} className={styles.addBtn}>
+                                    <FiPlus /> Agregar Tamaño
+                                </button>
+                            </div>
+
+                            <div className={styles.formGroup} style={{ marginBottom: '1.5rem' }}>
+                                <label>Descripción del decant</label>
+                                <input
+                                    type="text"
+                                    value={formData.decantOptions.description}
+                                    onChange={(e) => setFormData(prev => ({
+                                        ...prev,
+                                        decantOptions: { ...prev.decantOptions, description: e.target.value }
+                                    }))}
+                                    placeholder="ej: Atomizador de vidrio con spray"
+                                />
+                            </div>
+
+                            {formData.decantOptions.sizes.length === 0 ? (
+                                <div className={styles.emptyDecants}>
+                                    <p>No hay tamaños de decant configurados.</p>
+                                    <p>Hacé clic en "+ Agregar Tamaño" para comenzar.</p>
+                                </div>
+                            ) : (
+                                <div className={styles.decantGrid}>
+                                    {formData.decantOptions.sizes.map((s, index) => (
+                                        <div key={index} className={styles.decantCard}>
+                                            <div className={styles.decantCardHeader}>
+                                                <span className={styles.decantCardNumber}>#{index + 1}</span>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => removeDecantSize(index)}
+                                                    className={styles.decantRemoveBtn}
+                                                    title="Eliminar tamaño"
+                                                >
+                                                    <FiTrash2 />
+                                                </button>
+                                            </div>
+                                            <div className={styles.decantCardBody}>
+                                                <div className={styles.formGroup}>
+                                                    <label>ML</label>
+                                                    <input
+                                                        type="number"
+                                                        value={s.size}
+                                                        onChange={(e) => handleDecantSizeChange(index, 'size', e.target.value)}
+                                                        placeholder="5"
+                                                        min="1"
+                                                    />
+                                                </div>
+                                                <div className={styles.formGroup}>
+                                                    <label>Precio USD</label>
+                                                    <input
+                                                        type="number"
+                                                        value={s.price}
+                                                        onChange={(e) => handleDecantSizeChange(index, 'price', e.target.value)}
+                                                        placeholder="12"
+                                                        min="0"
+                                                        step="0.01"
+                                                    />
+                                                </div>
+                                                <div className={styles.formGroup}>
+                                                    <label>Stock</label>
+                                                    <input
+                                                        type="number"
+                                                        value={s.stock}
+                                                        onChange={(e) => handleDecantSizeChange(index, 'stock', e.target.value)}
+                                                        placeholder="20"
+                                                        min="0"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    )}
 
                     <div className={styles.section}>
                         <h2 className={styles.sectionTitle}>Precios (USD)</h2>

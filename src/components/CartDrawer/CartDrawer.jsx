@@ -90,8 +90,9 @@ const CartDrawer = ({ isOpen, onClose }) => {
                                         ? imagenes[0]
                                         : (typeof imagenes === 'string' ? imagenes : 'https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&q=80&w=200');
 
+                                    const itemKey = `${item._id}-${item.type}-${item.selectedSize || 'full'}`;
                                     return (
-                                        <div key={`${item._id}-${item.type}`} className={styles.cartItem}>
+                                        <div key={itemKey} className={styles.cartItem}>
                                             <img
                                                 src={imageUrl}
                                                 alt={nombre}
@@ -99,20 +100,23 @@ const CartDrawer = ({ isOpen, onClose }) => {
                                             />
                                             <div className={styles.itemInfo}>
                                                 <h4 className={styles.itemName}>{nombre}</h4>
+                                                {item.selectedSize && (
+                                                    <p className={styles.itemSize}>Tamaño: {item.selectedSize}ml</p>
+                                                )}
                                                 <p className={styles.itemPrice}>
                                                     {formatCurrency(convertToARS(getItemPrice(item)))}
                                                 </p>
                                                 <div className={styles.itemActions}>
-                                                    <div className={styles.qtyBtn} onClick={() => updateQuantity(item._id, item.type, item.quantity - 1)}>
+                                                    <div className={styles.qtyBtn} onClick={() => updateQuantity(item._id, item.type, item.quantity - 1, item.selectedSize)}>
                                                         <FiMinus />
                                                     </div>
                                                     <span>{item.quantity}</span>
-                                                    <div className={styles.qtyBtn} onClick={() => updateQuantity(item._id, item.type, item.quantity + 1)}>
+                                                    <div className={styles.qtyBtn} onClick={() => updateQuantity(item._id, item.type, item.quantity + 1, item.selectedSize)}>
                                                         <FiPlus />
                                                     </div>
                                                     <button
                                                         className={styles.removeBtn}
-                                                        onClick={() => removeFromCart(item._id, item.type)}
+                                                        onClick={() => removeFromCart(item._id, item.type, item.selectedSize)}
                                                     >
                                                         <FiTrash2 />
                                                     </button>

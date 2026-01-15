@@ -149,7 +149,8 @@
 }
 
 .categorySelect,
-.sortSelect {
+.sortSelect,
+.sellTypeSelect {
     padding: 0.6rem 1rem;
     background-color: var(--input-bg);
     border: 1px solid var(--border-color);
@@ -216,6 +217,50 @@
     color: var(--text-secondary);
 }
 
+/* Load More Button */
+.loadMoreContainer {
+    display: flex;
+    justify-content: center;
+    margin-top: 4rem;
+    margin-bottom: 2rem;
+}
+
+.loadMoreBtn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem 2rem;
+    background-color: transparent;
+    border: 1px solid var(--accent-color);
+    color: var(--accent-color);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    border-radius: 4px;
+}
+
+.loadMoreBtn:hover:not(:disabled) {
+    background-color: var(--accent-color);
+    color: var(--bg-color);
+}
+
+.loadMoreBtn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.loadMoreBtn svg {
+    font-size: 1rem;
+    transition: transform 0.3s ease;
+}
+
+.loadMoreBtn:hover:not(:disabled) svg {
+    transform: translateY(2px);
+}
+
 @media (max-width: 1200px) {
     .catalogLayout {
         gap: 2rem;
@@ -248,7 +293,6 @@
         padding-bottom: 1rem;
         scrollbar-width: none;
         gap: 0.8rem;
-        /* Adjusted gap for horizontal layout */
     }
 
     .verticalCategories::-webkit-scrollbar {
@@ -262,6 +306,38 @@
 
     .controlsSection {
         top: 60px;
+        padding: 0.8rem;
+    }
+
+    .controlsContainer {
+        flex-direction: column;
+        gap: 0.8rem;
+        align-items: stretch;
+    }
+
+    .searchWrapper {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .filterGroup {
+        width: 100%;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 0.5rem;
+    }
+
+    .categorySelect,
+    .sortSelect,
+    .sellTypeSelect {
+        flex: 1;
+        min-width: calc(50% - 0.5rem);
+        padding: 0.5rem 0.8rem;
+        font-size: 0.75rem;
+    }
+
+    .viewToggles {
+        flex-shrink: 0;
     }
 
     .grid {
@@ -270,17 +346,53 @@
     }
 }
 
+@media (max-width: 600px) {
+    .controlsSection {
+        top: 55px;
+    }
+
+    .filterGroup {
+        gap: 0.4rem;
+    }
+
+    .categorySelect,
+    .sortSelect,
+    .sellTypeSelect {
+        min-width: calc(50% - 0.4rem);
+        padding: 0.5rem 0.6rem;
+        font-size: 0.7rem;
+    }
+
+    .viewToggles {
+        order: -1;
+        width: 100%;
+        justify-content: center;
+        margin-bottom: 0.3rem;
+    }
+
+    .viewBtn {
+        width: 36px;
+        height: 32px;
+    }
+}
+
 @media (max-width: 480px) {
     .grid {
         grid-template-columns: 1fr;
     }
 
-    .controlsContainer {
-        flex-direction: column;
-        gap: 1rem;
+    .categorySelect,
+    .sortSelect,
+    .sellTypeSelect {
+        min-width: 100%;
     }
 
-    .searchWrapper {
-        width: 100%;
+    .filterGroup {
+        flex-direction: column;
+    }
+
+    .viewToggles {
+        width: auto;
+        align-self: center;
     }
 }

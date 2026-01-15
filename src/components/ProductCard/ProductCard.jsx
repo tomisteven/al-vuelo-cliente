@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiShoppingCart, FiChevronDown, FiPercent } from 'react-icons/fi';
+import { FiShoppingCart, FiChevronDown, FiPercent, FiDroplet } from 'react-icons/fi';
 import { useCart } from '../../context/CartContext';
 import { useCurrency } from '../../context/CurrencyContext';
 import { formatCurrency } from '../../utils/currencyFormatter';
@@ -12,6 +12,7 @@ const ProductCard = ({ product, viewMode = 'grid', isExpanded, onToggleAccordion
 
     // Use internal state as fallback when external control is not provided
     const [internalExpanded, setInternalExpanded] = useState(false);
+    const [selectedSize, setSelectedSize] = useState(product.sellType === 'decant' ? product.decantOptions?.sizes[0]?.size : null); // null means full bottle
 
     // Determine if using controlled or uncontrolled mode
     const isControlled = isExpanded !== undefined && onToggleAccordion !== undefined;
@@ -37,6 +38,17 @@ const ProductCard = ({ product, viewMode = 'grid', isExpanded, onToggleAccordion
         ? Math.max(...product.bulkPrices.map(bp => ((product.precio - bp.price) / product.precio * 100)))
         : 0;
 
+    const currentPrice = selectedSize
+        ? product.decantOptions?.sizes.find(s => s.size === selectedSize)?.price
+        : product.precio;
+
+    const currentStock = selectedSize
+        ? product.decantOptions?.sizes.find(s => s.size === selectedSize)?.stock
+        : product.stock;
+
+    const hasDecants = (product.sellType === 'both' || product.sellType === 'decant') && product.decantOptions?.available;
+    const decantSizes = product.decantOptions?.sizes || [];
+
     return (
         <motion.div
             className={`${styles.card} ${isList ? styles.listCard : ''}`}
@@ -58,13 +70,18 @@ const ProductCard = ({ product, viewMode = 'grid', isExpanded, onToggleAccordion
                         <FiPercent /> Hasta -{Math.round(bestDiscount)}%
                     </div>
                 )}
+                {hasDecants && (
+                    <div className={styles.decantBadge}>
+                        <FiDroplet /> Decants
+                    </div>
+                )}
 
                 {/* Cart Button Overlay */}
                 <div className={styles.imageOverlay}>
                     <button
                         className={styles.cartBtn}
-                        onClick={() => addToCart(product, 'product')}
-                        disabled={product.stock <= 0}
+                        onClick={() => addToCart(product, 'product', selectedSize)}
+                        disabled={currentStock <= 0}
                         title="Agregar al carrito"
                     >
                         <FiShoppingCart />
@@ -82,15 +99,51 @@ const ProductCard = ({ product, viewMode = 'grid', isExpanded, onToggleAccordion
                 <div className={styles.priceContainer}>
                     <div className={styles.prices}>
                         <div className={styles.priceRow}>
-                            <span className={styles.priceLabel}>MAYORISTA:</span>
-                            <span className={styles.price}>{formatCurrency(convertToARS(product.precio))}</span>
+                            <span className={styles.priceLabel}>
+                                {selectedSize ? `DECANT ${selectedSize}ML:` : 'MAYORISTA:'}
+                            </span>
+                            <span className={styles.price}>{formatCurrency(convertToARS(currentPrice))}</span>
                         </div>
                         <div className={styles.suggestedRow}>
                             <span className={styles.suggestedLabel}>SUGERIDO MINORISTA:</span>
-                            <span className={styles.suggestedAmount}>{formatCurrency(convertToARS(calculateSuggestedPrice(product.precio)))}</span>
+                            <span className={styles.suggestedAmount}>{formatCurrency(convertToARS(calculateSuggestedPrice(currentPrice)))}</span>
                         </div>
                     </div>
                 </div>
+
+                {hasDecants && (
+                    <div className={styles.sizeSelector}>
+                        <p className={styles.sizeLabel}>
+                            <FiDroplet className={styles.sizeLabelIcon} />
+                            Elegí tu presentación:
+                        </p>
+                        <div className={styles.sizeGrid}>
+                            {product.sellType === 'both' && (
+                                <button
+                                    className={`${styles.sizeBtn} ${styles.sizeBtnFull} ${selectedSize === null ? styles.sizeBtnActive : ''}`}
+                                    onClick={() => setSelectedSize(null)}
+                                    disabled={product.stock <= 0}
+                                >
+                                    <span className={styles.sizeBtnLabel}>Frasco Completo</span>
+                                    <span className={styles.sizeBtnPrice}>{formatCurrency(convertToARS(product.precio))}</span>
+                                </button>
+                            )}
+                            <div className={styles.decantOptions}>
+                                {decantSizes.map((s) => (
+                                    <button
+                                        key={s.size}
+                                        className={`${styles.sizeBtn} ${selectedSize === s.size ? styles.sizeBtnActive : ''}`}
+                                        onClick={() => setSelectedSize(s.size)}
+                                        disabled={s.stock <= 0}
+                                    >
+                                        <span className={styles.sizeBtnLabel}>{s.size}ml</span>
+                                        <span className={styles.sizeBtnPrice}>{formatCurrency(convertToARS(s.price))}</span>
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                )}
 
                 {/* Bulk Pricing Accordion */}
                 {hasBulkPrices && (
@@ -154,8 +207,8 @@ const ProductCard = ({ product, viewMode = 'grid', isExpanded, onToggleAccordion
                 {isList && (
                     <button
                         className={styles.listCartBtn}
-                        onClick={() => addToCart(product, 'product')}
-                        disabled={product.stock <= 0}
+                        onClick={() => addToCart(product, 'product', selectedSize)}
+                        disabled={currentStock <= 0}
                     >
                         <FiShoppingCart />
                         <span>Agregar</span>

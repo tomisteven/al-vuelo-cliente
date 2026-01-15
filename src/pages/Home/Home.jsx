@@ -30,7 +30,8 @@ const Home = () => {
         setLoading(true);
         setPage(1);
         try {
-            const data = await getProducts({ search, categoria, sort, limit: 20, page: 1 });
+            const data = await getProducts({ search, categoria, sort, limit: 20, page: 1, excludeCategoria: 'NICHO' });
+            console.log(data);
             setProducts(data.products || []);
             setHasMore(data.products?.length === 20);
         } catch (error) {
@@ -87,7 +88,8 @@ const Home = () => {
         setLoadingMore(true);
         const nextPage = page + 1;
         try {
-            const data = await getProducts({ search, categoria, sort, limit: 20, page: nextPage });
+            const data = await getProducts({ search, categoria, sort, limit: 20, page: nextPage, excludeCategoria: 'NICHO' });
+            console.log(data);
             const newProducts = data.products || [];
             if (newProducts.length === 0) {
                 setHasMore(false);

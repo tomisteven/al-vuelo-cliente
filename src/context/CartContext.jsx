@@ -13,9 +13,13 @@ export const CartProvider = ({ children }) => {
         localStorage.setItem('cart', JSON.stringify(cart));
     }, [cart]);
 
-    const addToCart = (item, type = 'product') => {
+    const addToCart = (item, type = 'product', selectedSize = null) => {
         setCart(prevCart => {
-            const existingItemIndex = prevCart.findIndex(i => i._id === item._id && i.type === type);
+            const existingItemIndex = prevCart.findIndex(i =>
+                i._id === item._id &&
+                i.type === type &&
+                i.selectedSize === selectedSize
+            );
 
             if (existingItemIndex > -1) {
                 const newCart = [...prevCart];
@@ -23,19 +27,23 @@ export const CartProvider = ({ children }) => {
                 return newCart;
             }
 
-            return [...prevCart, { ...item, type, quantity: 1 }];
+            return [...prevCart, { ...item, type, selectedSize, quantity: 1 }];
         });
     };
 
-    const removeFromCart = (id, type) => {
-        setCart(prevCart => prevCart.filter(item => !(item._id === id && item.type === type)));
+    const removeFromCart = (id, type, selectedSize = null) => {
+        setCart(prevCart => prevCart.filter(item =>
+            !(item._id === id && item.type === type && item.selectedSize === selectedSize)
+        ));
     };
 
-    const updateQuantity = (id, type, quantity) => {
-        if (quantity < 1) return removeFromCart(id, type);
+    const updateQuantity = (id, type, quantity, selectedSize = null) => {
+        if (quantity < 1) return removeFromCart(id, type, selectedSize);
 
         setCart(prevCart => prevCart.map(item =>
-            (item._id === id && item.type === type) ? { ...item, quantity } : item
+            (item._id === id && item.type === type && item.selectedSize === selectedSize)
+                ? { ...item, quantity }
+                : item
         ));
     };
 
@@ -47,6 +55,12 @@ export const CartProvider = ({ children }) => {
     // Calcular el precio actual basado en la cantidad (lógica mayorista para productos)
     const getItemPrice = (item) => {
         if (item.type === 'combo') return item.finalPrice;
+
+        // Si es un decant, buscar el precio del tamaño seleccionado
+        if (item.selectedSize) {
+            const sizeOption = item.decantOptions?.sizes.find(s => s.size === item.selectedSize);
+            return sizeOption ? sizeOption.price : item.precio;
+        }
 
         if (!item.bulkPrices || item.bulkPrices.length === 0) {
             return item.precio;

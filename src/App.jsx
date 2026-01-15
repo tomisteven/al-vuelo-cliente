@@ -11,7 +11,7 @@ import CurrencyBanner from './components/CurrencyBanner/CurrencyBanner';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import CartDrawer from './components/CartDrawer/CartDrawer';
-import DiscountPopup from './components/DiscountPopup/DiscountPopup';
+/* import DiscountPopup from './components/DiscountPopup/DiscountPopup'; */
 
 // Pages
 import Home from './pages/Home/Home';
@@ -112,7 +112,7 @@ function App() {
                                     </main>
 
                                     <Footer />
-                                    <DiscountPopup />
+                                    {/* <DiscountPopup /> */}
                                 </div>
                             </Router>
                         </NotificationProvider>

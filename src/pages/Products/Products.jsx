@@ -1,28 +1,56 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { getProducts, getCategories } from '../../api/product.api';
 import ProductCard from '../../components/ProductCard/ProductCard';
 import styles from './Products.module.css';
-import { FiSearch, FiGrid, FiList } from 'react-icons/fi';
+import { FiSearch, FiGrid, FiList, FiChevronDown } from 'react-icons/fi';
 
 const Products = () => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [loadingMore, setLoadingMore] = useState(false);
     const [search, setSearch] = useState('');
     const [categoria, setCategoria] = useState('');
     const [viewMode, setViewMode] = useState('grid'); // 'grid' or 'list'
     const [sort, setSort] = useState('nombre:asc');
+    const [sellType, setSellType] = useState(''); // '', 'perfume', 'decant'
     const [expandedProductId, setExpandedProductId] = useState(null); // Track which accordion is open
     const [categories, setCategories] = useState([]);
+    const [page, setPage] = useState(1);
+    const [hasMore, setHasMore] = useState(true);
+    const PRODUCTS_PER_PAGE = 20;
 
-    const fetchProducts = async () => {
+    const fetchProducts = useCallback(async () => {
         setLoading(true);
+        setPage(1);
         try {
-            const data = await getProducts({ search, categoria, sort });
+            const data = await getProducts({ search, categoria, sort, sellType, limit: PRODUCTS_PER_PAGE, page: 1 });
             setProducts(data.products || []);
+            setHasMore((data.products || []).length === PRODUCTS_PER_PAGE);
         } catch (error) {
             console.error('Error fetching products:', error);
         } finally {
             setLoading(false);
+        }
+    }, [search, categoria, sort, sellType]);
+
+    const loadMoreProducts = async () => {
+        if (loadingMore || !hasMore) return;
+        setLoadingMore(true);
+        const nextPage = page + 1;
+        try {
+            const data = await getProducts({ search, categoria, sort, sellType, limit: PRODUCTS_PER_PAGE, page: nextPage });
+            const newProducts = data.products || [];
+            if (newProducts.length === 0) {
+                setHasMore(false);
+            } else {
+                setProducts(prev => [...prev, ...newProducts]);
+                setPage(nextPage);
+                setHasMore(newProducts.length === PRODUCTS_PER_PAGE);
+            }
+        } catch (error) {
+            console.error('Error loading more products:', error);
+        } finally {
+            setLoadingMore(false);
         }
     };
 
@@ -44,7 +72,7 @@ const Products = () => {
         }, 500);
 
         return () => clearTimeout(delayDebounceFn);
-    }, [search, categoria, sort]);
+    }, [fetchProducts]);
 
     // Handler to toggle accordion - only one open at a time
     const handleToggleAccordion = (productId) => {
@@ -97,6 +125,16 @@ const Products = () => {
                             ))}
                         </select>
 
+                        <select
+                            className={styles.sellTypeSelect}
+                            value={sellType}
+                            onChange={(e) => setSellType(e.target.value)}
+                        >
+                            <option value="">Todo (Frasco/Decant)</option>
+                            <option value="perfume">Solo Frascos</option>
+                            <option value="decant">Solo Decants</option>
+                        </select>
+
                         <div className={styles.viewToggles}>
                             <button
                                 className={`${styles.viewBtn} ${viewMode === 'grid' ? styles.active : ''}`}
@@ -123,23 +161,37 @@ const Products = () => {
                         {loading ? (
                             <div className={styles.loader}>Buscando esencias...</div>
                         ) : (
-                            <div className={viewMode === 'grid' ? styles.grid : styles.list}>
-                                {products.length > 0 ? (
-                                    products.map(product => (
-                                        <ProductCard
-                                            key={product._id}
-                                            product={product}
-                                            viewMode={viewMode}
-                                            isExpanded={expandedProductId === product._id}
-                                            onToggleAccordion={() => handleToggleAccordion(product._id)}
-                                        />
-                                    ))
-                                ) : (
-                                    <div className={styles.noResults}>
-                                        <p>No se encontraron perfumes con estos criterios.</p>
+                            <>
+                                <div className={viewMode === 'grid' ? styles.grid : styles.list}>
+                                    {products.length > 0 ? (
+                                        products.map(product => (
+                                            <ProductCard
+                                                key={product._id}
+                                                product={product}
+                                                viewMode={viewMode}
+                                                isExpanded={expandedProductId === product._id}
+                                                onToggleAccordion={() => handleToggleAccordion(product._id)}
+                                            />
+                                        ))
+                                    ) : (
+                                        <div className={styles.noResults}>
+                                            <p>No se encontraron perfumes con estos criterios.</p>
+                                        </div>
+                                    )}
+                                </div>
+
+                                {hasMore && products.length > 0 && (
+                                    <div className={styles.loadMoreContainer}>
+                                        <button
+                                            className={styles.loadMoreBtn}
+                                            onClick={loadMoreProducts}
+                                            disabled={loadingMore}
+                                        >
+                                            {loadingMore ? 'Cargando...' : <>Cargar más fragancias <FiChevronDown /></>}
+                                        </button>
                                     </div>
                                 )}
-                            </div>
+                            </>
                         )}
                     </main>
                 </div>

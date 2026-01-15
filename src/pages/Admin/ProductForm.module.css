@@ -123,12 +123,123 @@
     text-transform: uppercase;
 }
 
-.bulkRow {
+.bulkRow,
+.decantRow {
     display: grid;
-    grid-template-columns: 1fr 1fr 50px;
-    gap: 1rem;
+    gap: 1.5rem;
     align-items: flex-end;
+    background: rgba(255, 255, 255, 0.03);
+    padding: 1.5rem;
+    border-radius: 12px;
     margin-bottom: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.bulkRow {
+    grid-template-columns: 1fr 1fr auto;
+}
+
+.decantRow {
+    grid-template-columns: 1fr 1fr 1fr auto;
+}
+
+/* Decant Grid Layout */
+.decantGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1rem;
+}
+
+.decantCard {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(59, 130, 246, 0.03));
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: all 0.2s ease;
+}
+
+.decantCard:hover {
+    border-color: rgba(59, 130, 246, 0.4);
+    transform: translateY(-2px);
+}
+
+.decantCardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.6rem 0.8rem;
+    background: rgba(59, 130, 246, 0.1);
+    border-bottom: 1px solid rgba(59, 130, 246, 0.15);
+}
+
+.decantCardNumber {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #3b82f6;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.decantRemoveBtn {
+    color: #ef4444;
+    font-size: 0.9rem;
+    cursor: pointer;
+    padding: 0.3rem;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.decantRemoveBtn:hover {
+    background: rgba(239, 68, 68, 0.1);
+    color: #dc2626;
+}
+
+.decantCardBody {
+    padding: 0.8rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.decantCardBody .formGroup {
+    gap: 0.3rem;
+}
+
+.decantCardBody .formGroup label {
+    font-size: 0.65rem;
+    color: #3b82f6;
+}
+
+.decantCardBody .formGroup input {
+    padding: 0.6rem 0.8rem;
+    font-size: 0.9rem;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+.decantCardBody .formGroup input:focus {
+    border-color: #3b82f6;
+}
+
+.emptyDecants {
+    text-align: center;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px dashed rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+}
+
+.emptyDecants p {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    margin: 0.3rem 0;
+}
+
+.emptyDecants p:first-child {
+    font-weight: 600;
 }
 
 .removeBtn {
@@ -138,6 +249,13 @@
     justify-content: center;
     color: #ff4444;
     font-size: 1.2rem;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.removeBtn:hover {
+    color: #ff0000;
+    transform: scale(1.1);
 }
 
 .infoText {
@@ -234,9 +352,21 @@
 }
 
 @media (max-width: 600px) {
-
-    .grid,
-    .bulkRow {
+    .grid {
         grid-template-columns: 1fr;
+    }
+
+    .bulkRow,
+    .decantRow {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .decantRow {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .removeBtn {
+        grid-column: 1 / -1;
     }
 }
