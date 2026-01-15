@@ -38,7 +38,7 @@ const Header = ({ toggleCart }) => {
         { name: 'Inicio', path: '/' },
         { name: 'Nicho', path: '/nicho' },
         { name: 'Miniaturas', path: '/miniaturas' },
-        { name: 'Productos', path: '/productos' },
+        { name: 'Arabes', path: '/productos' },
         { name: 'Combos', path: '/combos' },
         { name: 'Nosotros', path: '/nosotros' },
         { name: 'Preguntas', path: '/faq' },
