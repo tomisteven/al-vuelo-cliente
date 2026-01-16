@@ -3,6 +3,7 @@ import { getProducts, getCategories } from '../../api/product.api';
 import ProductCard from '../../components/ProductCard/ProductCard';
 import styles from './Products.module.css';
 import { FiSearch, FiGrid, FiList, FiChevronDown } from 'react-icons/fi';
+import SEO from '../../components/SEO/SEO';
 
 const Products = () => {
     const [products, setProducts] = useState([]);
@@ -81,6 +82,11 @@ const Products = () => {
 
     return (
         <div className={styles.page}>
+            <SEO
+                title="Catálogo de Fragancias"
+                description="Explorá nuestro catálogo mayorista de perfumes árabes. Lattafa, Maison Alhambra, Afnan y más en un solo lugar."
+                keywords="catalogo perfumes, perfumes por mayor, lattafa argentina, maison alhambra"
+            />
             <div className="container">
                 <header className={styles.header}>
                     <h1 className={styles.title}>Venta Mayorista de Perfumes Árabes</h1>

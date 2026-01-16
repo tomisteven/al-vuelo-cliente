@@ -3,6 +3,7 @@ import { getProducts, getCategories } from '../../api/product.api';
 import ProductCard from '../../components/ProductCard/ProductCard';
 import styles from './Nicho.module.css';
 import { FiSearch, FiGrid, FiList, FiChevronDown } from 'react-icons/fi';
+import SEO from '../../components/SEO/SEO';
 
 const Nicho = () => {
     const [products, setProducts] = useState([]);
@@ -77,6 +78,11 @@ const Nicho = () => {
 
     return (
         <div className={styles.page}>
+            <SEO
+                title="Perfumes de Nicho"
+                description="Explorá nuestra colección de perfumes nicho. Fragancias exclusivas y de alta gama para los más exigentes."
+                keywords="perfumes nicho, fragancias exclusivas, alta perfumeria, perfumes importados"
+            />
             <div className="container">
                 <header className={styles.header}>
                     <h1 className={styles.title}>Perfumería de Nicho</h1>

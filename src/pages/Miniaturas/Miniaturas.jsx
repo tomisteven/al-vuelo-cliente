@@ -3,6 +3,7 @@ import { getProducts, getCategories } from '../../api/product.api';
 import ProductCard from '../../components/ProductCard/ProductCard';
 import styles from './Miniaturas.module.css';
 import { FiSearch, FiGrid, FiList, FiChevronDown } from 'react-icons/fi';
+import SEO from '../../components/SEO/SEO';
 
 const Miniaturas = () => {
     const [products, setProducts] = useState([]);
@@ -77,6 +78,11 @@ const Miniaturas = () => {
 
     return (
         <div className={styles.page}>
+            <SEO
+                title="Miniaturas"
+                description="Colección de perfumes en formato miniatura. Ideales para regalo o para llevar con vos a todos lados."
+                keywords="miniaturas perfumes, perfumes pequeños, frascos miniatura, regalos perfumes"
+            />
             <div className="container">
                 <header className={styles.header}>
                     <h1 className={styles.title}>Colección de Miniaturas</h1>
