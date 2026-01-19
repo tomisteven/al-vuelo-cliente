@@ -79,13 +79,13 @@ const Nicho = () => {
     return (
         <div className={styles.page}>
             <SEO
-                title="Perfumes de Nicho"
+                title="Perfumes de Diseñador"
                 description="Explorá nuestra colección de perfumes nicho. Fragancias exclusivas y de alta gama para los más exigentes."
                 keywords="perfumes nicho, fragancias exclusivas, alta perfumeria, perfumes importados"
             />
             <div className="container">
                 <header className={styles.header}>
-                    <h1 className={styles.title}>Perfumería de Nicho</h1>
+                    <h1 className={styles.title}>Perfumería de Diseñador</h1>
                     <p className={styles.subtitle}>Exclusividad, arte y duración en cada gota.</p>
                 </header>
             </div>

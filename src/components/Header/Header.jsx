@@ -36,7 +36,7 @@ const Header = ({ toggleCart }) => {
 
     const navLinks = [
         { name: 'Inicio', path: '/' },
-        { name: 'Nicho', path: '/nicho' },
+        { name: 'Diseñador', path: '/nicho' },
         { name: 'Miniaturas', path: '/miniaturas' },
         { name: 'Arabes', path: '/productos' },
         { name: 'Combos', path: '/combos' },
