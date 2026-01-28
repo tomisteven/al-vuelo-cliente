@@ -337,7 +337,7 @@
     }
 
     .viewToggles {
-        flex-shrink: 0;
+        display: none;
     }
 
     .grid {
@@ -364,15 +364,7 @@
     }
 
     .viewToggles {
-        order: -1;
-        width: 100%;
-        justify-content: center;
-        margin-bottom: 0.3rem;
-    }
-
-    .viewBtn {
-        width: 36px;
-        height: 32px;
+        display: none;
     }
 }
 
@@ -392,7 +384,6 @@
     }
 
     .viewToggles {
-        width: auto;
-        align-self: center;
+        display: none;
     }
 }
