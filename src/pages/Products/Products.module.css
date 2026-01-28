@@ -328,12 +328,15 @@
     }
 
     .categorySelect,
-    .sortSelect,
     .sellTypeSelect {
         flex: 1;
         min-width: calc(50% - 0.5rem);
         padding: 0.5rem 0.8rem;
         font-size: 0.75rem;
+    }
+
+    .sortSelect {
+        display: none;
     }
 
     .viewToggles {
@@ -356,7 +359,6 @@
     }
 
     .categorySelect,
-    .sortSelect,
     .sellTypeSelect {
         min-width: calc(50% - 0.4rem);
         padding: 0.5rem 0.6rem;
@@ -374,7 +376,6 @@
     }
 
     .categorySelect,
-    .sortSelect,
     .sellTypeSelect {
         min-width: 100%;
     }
