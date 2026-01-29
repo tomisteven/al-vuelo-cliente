@@ -74,6 +74,23 @@ const ComboForm = () => {
         setFormData(prev => ({ ...prev, products: newProducts }));
     };
 
+    const calculateTotals = () => {
+        let basePrice = 0;
+        formData.products.forEach(p => {
+            const product = products.find(prod => prod._id === p.product);
+            if (product) {
+                basePrice += (product.precio * p.quantity);
+            }
+        });
+
+        const discount = Number(formData.discountPercentage) || 0;
+        const finalPrice = basePrice * (1 - discount / 100);
+
+        return { basePrice, finalPrice };
+    };
+
+    const { basePrice, finalPrice } = calculateTotals();
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -140,8 +157,8 @@ const ComboForm = () => {
                             </button>
                         </div>
                         {formData.products.map((p, index) => (
-                            <div key={index} className={styles.bulkRow}>
-                                <div className={`${styles.formGroup} ${styles.fullWidth}`} style={{ gridColumn: 'span 1' }}>
+                            <div key={index} className={styles.comboProductRow}>
+                                <div className={`${styles.formGroup} ${styles.productSelectGroup}`}>
                                     <label>Seleccionar Producto</label>
                                     <select
                                         value={p.product}
@@ -156,7 +173,7 @@ const ComboForm = () => {
                                         ))}
                                     </select>
                                 </div>
-                                <div className={styles.formGroup}>
+                                <div className={`${styles.formGroup} ${styles.quantityGroup}`}>
                                     <label>Cantidad</label>
                                     <input
                                         type="number" value={p.quantity}
@@ -164,11 +181,31 @@ const ComboForm = () => {
                                         required min="1"
                                     />
                                 </div>
-                                <button type="button" onClick={() => removeProductFromCombo(index)} className={styles.removeBtn}>
-                                    <FiTrash2 />
-                                </button>
+                                <div className={styles.removeActionGroup}>
+                                    <button type="button" onClick={() => removeProductFromCombo(index)} className={styles.removeBtn}>
+                                        <FiTrash2 />
+                                    </button>
+                                </div>
                             </div>
                         ))}
+                    </div>
+
+                    <div className={styles.section} style={{ background: 'var(--bg-secondary)', borderLeft: '4px solid var(--accent)' }}>
+                        <h2 className={styles.sectionTitle}>Resumen de Precios</h2>
+                        <div className={styles.grid}>
+                            <div className={styles.formGroup}>
+                                <label>Precio Base Total (USD)</label>
+                                <div style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>
+                                    {basePrice.toFixed(2)} USD
+                                </div>
+                            </div>
+                            <div className={styles.formGroup}>
+                                <label>Precio Final con {formData.discountPercentage}% desc. (USD)</label>
+                                <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'var(--accent)' }}>
+                                    {finalPrice.toFixed(2)} USD
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <button type="submit" className="premium-btn" style={{ width: '100%', marginTop: '2rem' }}>
