@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { API_URL } from '../constants/constants';
+import { SITE_MODE } from '../config/siteMode';
 
 const CurrencyContext = createContext();
 
@@ -10,6 +11,11 @@ export const CurrencyProvider = ({ children }) => {
     const [suggestedPricePercentage, setSuggestedPricePercentage] = useState(10);
 
     const fetchExchangeRate = async () => {
+        if (SITE_MODE === 'linktree') {
+            setExchangeRate(1100);
+            setLoading(false);
+            return;
+        }
         try {
             setLoading(true);
             const response = await fetch('https://dolarapi.com/v1/dolares/blue');
@@ -32,6 +38,7 @@ export const CurrencyProvider = ({ children }) => {
     };
 
     const fetchSettings = async () => {
+        if (SITE_MODE === 'linktree') return;
         try {
             const response = await fetch(`${API_URL}/settings`);
             const result = await response.json();

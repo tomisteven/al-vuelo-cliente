@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import authApi from '../api/auth.api';
+import { SITE_MODE } from '../config/siteMode';
 
 const AuthContext = createContext();
 
@@ -17,6 +18,10 @@ export const AuthProvider = ({ children }) => {
     const [error, setError] = useState(null);
 
     const loadUser = useCallback(async () => {
+        if (SITE_MODE === 'linktree') {
+            setLoading(false);
+            return;
+        }
         const token = localStorage.getItem('token');
         if (!token) {
             setLoading(false);
@@ -43,6 +48,9 @@ export const AuthProvider = ({ children }) => {
     }, [loadUser]);
 
     const login = async (credentials) => {
+        if (SITE_MODE === 'linktree') {
+            return { success: false, message: 'Acceso deshabilitado temporalmente' };
+        }
         setError(null);
         try {
             const response = await authApi.login(credentials);
@@ -59,6 +67,9 @@ export const AuthProvider = ({ children }) => {
     };
 
     const register = async (userData) => {
+        if (SITE_MODE === 'linktree') {
+            return { success: false, message: 'Acceso deshabilitado temporalmente' };
+        }
         setError(null);
         try {
             const response = await authApi.register(userData);
