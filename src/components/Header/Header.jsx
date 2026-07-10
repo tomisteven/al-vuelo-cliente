@@ -9,7 +9,7 @@ import AuthModal from '../Auth/AuthModal';
 import styles from './Header.module.css';
 import logo from '../../assets/LOGOBLANCO.png';
 
-const Header = ({ toggleCart }) => {
+const Header = ({ toggleCart, storePrefix = '' }) => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
@@ -34,20 +34,21 @@ const Header = ({ toggleCart }) => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, [location.search, isAuthenticated]);
 
+    const p = (path) => `${storePrefix}${path}`;
     const navLinks = [
-        { name: 'Inicio', path: '/' },
-        { name: 'Nicho', path: '/nicho' },
-        { name: 'Miniaturas', path: '/miniaturas' },
-        { name: 'Productos', path: '/productos' },
-        { name: 'Combos', path: '/combos' },
-        { name: 'Nosotros', path: '/nosotros' },
-        { name: 'Preguntas', path: '/faq' },
-        ...(isAdmin ? [{ name: 'Admin', path: '/admin' }] : []),
+        { name: 'Inicio', path: storePrefix || '/' },
+        { name: 'Nicho', path: p('/nicho') },
+        { name: 'Miniaturas', path: p('/miniaturas') },
+        { name: 'Productos', path: p('/productos') },
+        { name: 'Combos', path: p('/combos') },
+        { name: 'Nosotros', path: p('/nosotros') },
+        { name: 'Preguntas', path: p('/faq') },
+        ...(isAdmin ? [{ name: 'Admin', path: p('/admin') }] : []),
     ];
 
     return (
         <header className={`${styles.header} ${isScrolled ? styles.headerScrolled : ''}`}>
-            <Link to="/" className={styles.logo}>
+            <Link to={storePrefix || '/'} className={styles.logo}>
                 <img src={logo} alt="Al Vuelo Importados" />
             </Link>
 
