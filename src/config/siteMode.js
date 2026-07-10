@@ -25,12 +25,12 @@ export const linktreeConfig = {
     },
     {
       label: 'Instagram',
-      url: 'https://instagram.com/alvuelo.ok',
+      url: 'https://instagram.com/Alvueloboutique',
       icon: 'Instagram',
     },
     {
       label: 'Ubicación',
-      url: 'https://maps.app.goo.gl/YOUR_UBICATION_ID',
+      url: 'https://maps.app.goo.gl/GmGjWZ3NpoBYLEqEA',
       icon: 'MapPin',
     },
     {
@@ -42,6 +42,6 @@ export const linktreeConfig = {
 
   social: {
     whatsapp: 'https://wa.me/5491123275263',
-    instagram: 'https://instagram.com/alvuelo.ok',
+    instagram: 'https://instagram.com/Alvueloboutique',
   },
 };
