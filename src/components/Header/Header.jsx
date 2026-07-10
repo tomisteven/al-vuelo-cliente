@@ -37,9 +37,9 @@ const Header = ({ toggleCart, storePrefix = '' }) => {
     const p = (path) => `${storePrefix}${path}`;
     const navLinks = [
         { name: 'Inicio', path: storePrefix || '/' },
-        { name: 'Nicho', path: p('/nicho') },
+        { name: 'Diseñador', path: p('/nicho') },
         { name: 'Miniaturas', path: p('/miniaturas') },
-        { name: 'Productos', path: p('/productos') },
+        { name: 'Arabes', path: p('/productos') },
         { name: 'Combos', path: p('/combos') },
         { name: 'Nosotros', path: p('/nosotros') },
         { name: 'Preguntas', path: p('/faq') },

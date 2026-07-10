@@ -94,6 +94,11 @@ const FAQ = () => {
 
     return (
         <div className={styles.faqPage}>
+            <SEO
+                title="Centro de Ayuda / FAQ"
+                description="¿Tenes dudas sobre cómo comprar, envíos o medios de pago? Consultá nuestra sección de preguntas frecuentes."
+                keywords="preguntas frecuentes, ayuda, como comprar, envios argentina, pagos"
+            />
             <header className={styles.header}>
                 <div className="container">
                     <motion.h1

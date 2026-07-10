@@ -5,12 +5,14 @@ import { ThemeProvider } from './context/ThemeContext';
 import { AuthProvider } from './context/AuthContext';
 import { CurrencyProvider } from './context/CurrencyContext';
 import { NotificationProvider } from './context/NotificationContext';
+import { ToastProvider } from './components/Toast/Toast';
 import CurrencyBanner from './components/CurrencyBanner/CurrencyBanner';
 
 // Components
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import CartDrawer from './components/CartDrawer/CartDrawer';
+import WhatsAppFloat from './components/WhatsAppFloat/WhatsAppFloat';
 import DiscountPopup from './components/DiscountPopup/DiscountPopup';
 
 // Pages
@@ -120,6 +122,7 @@ function StoreLayout() {
             </main>
 
             <Footer />
+            <WhatsAppFloat />
             <DiscountPopup />
         </div>
     );
@@ -131,9 +134,11 @@ function AppProviders({ children }) {
             <CurrencyProvider>
                 <ThemeProvider>
                     <CartProvider>
-                        <NotificationProvider>
-                            {children}
-                        </NotificationProvider>
+                        <ToastProvider>
+                            <NotificationProvider>
+                                {children}
+                            </NotificationProvider>
+                        </ToastProvider>
                     </CartProvider>
                 </ThemeProvider>
             </CurrencyProvider>

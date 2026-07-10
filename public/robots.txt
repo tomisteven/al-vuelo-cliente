@@ -4,4 +4,4 @@ Disallow: /admin/
 Disallow: /checkout/
 Disallow: /perfil/
 
-Sitemap: https://oudandessence.com/sitemap.xml
+Sitemap: https://alvuelomayorista.com/sitemap.xml

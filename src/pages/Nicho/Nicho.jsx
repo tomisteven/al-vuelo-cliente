@@ -2,8 +2,8 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { getProducts, getCategories } from '../../api/product.api';
 import ProductCard from '../../components/ProductCard/ProductCard';
 import styles from './Nicho.module.css';
-import nichoBanner from '../../assets/nicho_banner.png';
 import { FiSearch, FiGrid, FiList, FiChevronDown } from 'react-icons/fi';
+import SEO from '../../components/SEO/SEO';
 
 const Nicho = () => {
     const [products, setProducts] = useState([]);
@@ -78,13 +78,16 @@ const Nicho = () => {
 
     return (
         <div className={styles.page}>
-            <div className={styles.hero} style={{ backgroundImage: `url(${nichoBanner})` }}>
-                <div className={styles.heroOverlay}>
-                    <div className="container">
-                        <h1 className={styles.heroTitle}>Perfumería de Nicho</h1>
-                        <p className={styles.heroSubtitle}>Exclusividad, arte y duración en cada gota.</p>
-                    </div>
-                </div>
+            <SEO
+                title="Perfumes de Diseñador"
+                description="Explorá nuestra colección de perfumes nicho. Fragancias exclusivas y de alta gama para los más exigentes."
+                keywords="perfumes nicho, fragancias exclusivas, alta perfumeria, perfumes importados"
+            />
+            <div className="container">
+                <header className={styles.header}>
+                    <h1 className={styles.title}>Perfumería de Diseñador</h1>
+                    <p className={styles.subtitle}>Exclusividad, arte y duración en cada gota.</p>
+                </header>
             </div>
 
             <section className={styles.controlsSection}>

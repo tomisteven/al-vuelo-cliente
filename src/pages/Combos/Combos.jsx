@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { getCombos } from '../../api/combo.api';
 import ComboCard from '../../components/ComboCard/ComboCard';
 import styles from '../Products/Products.module.css';
+import SEO from '../../components/SEO/SEO';
 
 const Combos = () => {
     const [combos, setCombos] = useState([]);
@@ -23,6 +24,11 @@ const Combos = () => {
 
     return (
         <div className={styles.page}>
+            <SEO
+                title="Combos y Ofertas"
+                description="Descubrí nuestros combos exclusivos de perfumes árabes. La mejor selección al mejor precio mayorista."
+                keywords="combos perfumes, ofertas perfumes, sets fragancias, mayorista argentina"
+            />
             <div className="container">
                 <header className={styles.header}>
                     <h1 className={styles.title}>Combos de Lujo</h1>

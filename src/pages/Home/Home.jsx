@@ -6,6 +6,7 @@ import { getCombos } from '../../api/combo.api';
 import { useAuth } from '../../context/AuthContext';
 import ProductCard from '../../components/ProductCard/ProductCard';
 import HeroCarousel from '../../components/HeroCarousel/HeroCarousel';
+import SEO from '../../components/SEO/SEO';
 import styles from '../Products/Products.module.css';
 import homeStyles from './Home.module.css';
 import essenceBg from '../../assets/essence_luxury.png';
@@ -30,7 +31,8 @@ const Home = () => {
         setLoading(true);
         setPage(1);
         try {
-            const data = await getProducts({ search, categoria, sort, limit: 20, page: 1 });
+            const data = await getProducts({ search, categoria, sort, limit: 20, page: 1, excludeCategoria: 'NICHO' });
+            console.log(data);
             setProducts(data.products || []);
             setHasMore(data.products?.length === 20);
         } catch (error) {
@@ -87,7 +89,8 @@ const Home = () => {
         setLoadingMore(true);
         const nextPage = page + 1;
         try {
-            const data = await getProducts({ search, categoria, sort, limit: 20, page: nextPage });
+            const data = await getProducts({ search, categoria, sort, limit: 20, page: nextPage, excludeCategoria: 'NICHO' });
+            console.log(data);
             const newProducts = data.products || [];
             if (newProducts.length === 0) {
                 setHasMore(false);
@@ -135,7 +138,12 @@ const Home = () => {
     const maxDiscount = getMaxDiscount();
 
     return (
-        <div className={homeStyles.home}>
+        <div className={styles.homeContainer}>
+            <SEO
+                title="Perfumes Árabes Mayorista"
+                description="Importadora líder de perfumes árabes y de nicho en Argentina. Ventas por mayor y menor con envíos a todo el país. Local en San Miguel."
+                keywords="perfumes arabes, perfumes mayorista, importadora perfumes, san miguel perfumes"
+            />
             <HeroCarousel />
 
 

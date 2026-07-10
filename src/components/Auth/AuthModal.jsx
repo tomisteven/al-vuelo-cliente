@@ -29,9 +29,9 @@ const AuthModal = ({ isOpen, onClose }) => {
             let result;
             if (isLogin) {
                 result = await login({ email: formData.email, password: formData.password });
-            } else {
+            } /* else {
                 result = await register(formData);
-            }
+            } */
 
             if (result.success) {
                 onClose();
@@ -133,14 +133,15 @@ const AuthModal = ({ isOpen, onClose }) => {
                             </button>
                         </form>
 
-                        <div className={styles.footer}>
+                        {/* <div className={styles.footer}>
                             <span>
                                 {isLogin ? '¿No tienes cuenta?' : '¿Ya tienes cuenta?'}
                             </span>
                             <button className={styles.toggleBtn} onClick={() => setIsLogin(!isLogin)}>
                                 {isLogin ? 'Regístrate aquí' : 'Inicia sesión aquí'}
                             </button>
-                        </div>
+                        </div> */}
+
                     </div>
                 </motion.div>
             </div>

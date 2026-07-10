@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import styles from './HeroCarousel.module.css';
 
-import hero1 from '../../assets/hero_luxury_perfume_1_1767885897767.png';
+import hero1 from '../../assets/banner2.jpg';
 
 import principal from '../../assets/localexterior.jpg';
 
@@ -61,14 +61,7 @@ const HeroCarousel = () => {
                     />
                     <div className={styles.overlay} />
                     <div className={styles.content}>
-                        <motion.span
-                            initial={{ y: 20, opacity: 0 }}
-                            animate={{ y: 0, opacity: 1 }}
-                            transition={{ delay: 0.5 }}
-                            className={styles.tag}
-                        >
-                            Al Vuelo Importados
-                        </motion.span>
+
                         <motion.h2
                             initial={{ y: 30, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}

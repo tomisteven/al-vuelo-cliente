@@ -2,8 +2,8 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { getProducts, getCategories } from '../../api/product.api';
 import ProductCard from '../../components/ProductCard/ProductCard';
 import styles from './Miniaturas.module.css';
-import miniaturasBanner from '../../assets/miniaturas_banner.png';
 import { FiSearch, FiGrid, FiList, FiChevronDown } from 'react-icons/fi';
+import SEO from '../../components/SEO/SEO';
 
 const Miniaturas = () => {
     const [products, setProducts] = useState([]);
@@ -78,13 +78,16 @@ const Miniaturas = () => {
 
     return (
         <div className={styles.page}>
-            <div className={styles.hero} style={{ backgroundImage: `url(${miniaturasBanner})` }}>
-                <div className={styles.heroOverlay}>
-                    <div className="container">
-                        <h1 className={styles.heroTitle}>Colección de Miniaturas</h1>
-                        <p className={styles.heroSubtitle}>El detalle perfecto en formato compacto.</p>
-                    </div>
-                </div>
+            <SEO
+                title="Miniaturas"
+                description="Colección de perfumes en formato miniatura. Ideales para regalo o para llevar con vos a todos lados."
+                keywords="miniaturas perfumes, perfumes pequeños, frascos miniatura, regalos perfumes"
+            />
+            <div className="container">
+                <header className={styles.header}>
+                    <h1 className={styles.title}>Colección de Miniaturas</h1>
+                    <p className={styles.subtitle}>El detalle perfecto en formato compacto.</p>
+                </header>
             </div>
 
             <section className={styles.controlsSection}>
